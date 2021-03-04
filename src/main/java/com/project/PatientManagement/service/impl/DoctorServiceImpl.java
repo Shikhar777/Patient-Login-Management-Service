@@ -104,14 +104,46 @@ public class DoctorServiceImpl implements DoctorService {
         for(Integer patient: patientId) {
             String patientName = patientRepository.getPatientName(patient);
             long patientContact = patientRepository.getPatientContact(patient);
+            String gender = patientRepository.getPatientGender(patient);
+            int age = patientRepository.getPatientAge(patient);
+            String issue = invoiceRepository.getPatientIssue(patient);
             PatientUnderDoctorResponseDto patientUnderDoctorResponseDto = new PatientUnderDoctorResponseDto();
             patientUnderDoctorResponseDto.setId(patient);
             patientUnderDoctorResponseDto.setPatientContact(patientContact);
             patientUnderDoctorResponseDto.setPatientName(patientName);
+            patientUnderDoctorResponseDto.setAge(age);
+            patientUnderDoctorResponseDto.setGender(gender);
+            patientUnderDoctorResponseDto.setIssue(issue);
             patientUnderDoctorResponseDtos.add(patientUnderDoctorResponseDto);
         }
 
         return patientUnderDoctorResponseDtos;
+    }
+
+    @Override
+    public void endConsultation(int doctorId, int patientId) {
+
+        boolean isTreated = invoiceRepository.isTreated(patientId);
+        Invoice invoice = invoiceRepository.findByPatientId(patientId);
+
+        if(!isTreated) {
+            invoice.setTreated(true);
+        }
+
+
+        boolean isFirstTIme = invoiceRepository.isFirstTime(patientId);
+        if(isFirstTIme) {
+            invoice.setFirstTime(false);
+        }
+
+        invoiceRepository.save(invoice);
+        Doctor doctor = doctorRepository.findById(doctorId).get();
+        int doctorPatientCount = doctor.getDoctorPatientCount();
+        doctorPatientCount = doctorPatientCount - 1;
+        doctor.setDoctorPatientCount(doctorPatientCount);
+        doctorRepository.save(doctor);
+
+
     }
 
     @Override

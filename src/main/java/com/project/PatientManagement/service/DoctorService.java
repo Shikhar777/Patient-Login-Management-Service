@@ -18,4 +18,6 @@ public interface DoctorService {
     Doctor findByEmail(String email);
 
     List<PatientUnderDoctorResponseDto> getPatientsUnderDoctor(int doctorId);
+
+    void endConsultation(int doctorId, int patientId);
 }

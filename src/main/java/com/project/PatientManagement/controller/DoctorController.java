@@ -35,4 +35,10 @@ public class DoctorController {
     public List<PatientUnderDoctorResponseDto> getPatientsUnderDoctor(@PathVariable("doctorId") int doctorId) {
         return doctorService.getPatientsUnderDoctor(doctorId);
     }
+
+    @CrossOrigin
+    @PutMapping("endConsultation/{doctorId}/{patientId}")
+    public void endConsultation(@PathVariable("doctorId") int doctorId, @PathVariable("patientId") int patientId) {
+         doctorService.endConsultation(doctorId, patientId);
+    }
 }

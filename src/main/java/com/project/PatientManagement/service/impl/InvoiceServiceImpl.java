@@ -23,6 +23,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     public InvoiceResponseDto makePaymentAndBookDoctor(int patientId, InvoiceRequestDto invoiceRequestDto) {
 
         Invoice invoice = invoiceRepository.getInvoiceByPatientId(patientId);
+        InvoiceResponseDto invoiceResponseDto = new InvoiceResponseDto();
 
         if(invoice == null) {
             Invoice invoice1 = new Invoice();
@@ -38,21 +39,26 @@ public class InvoiceServiceImpl implements InvoiceService {
         }
 
         else {
+            boolean isTreated = invoiceRepository.isTreated(patientId);
+            if(!isTreated)
+                return null;
             invoiceRepository.setInvoiceTable(patientId, invoiceRequestDto.getIssue(), invoiceRequestDto.getDoctorId());
+//            boolean isFirstTime = invoiceRepository.isFirstTime(patientId);
+//            invoiceResponseDto.setFirstTime(isFirstTime);
+
+
+
+
+//            invoiceResponseDto.setTreated(isTreated);
+            invoiceResponseDto.setTreated(false);
         }
         DoctorResponseDto doctorResponseDto = doctorService.updateDoctor(invoiceRequestDto.getDoctorId());
-        InvoiceResponseDto invoiceResponseDto = new InvoiceResponseDto();
+
         invoiceResponseDto.setDoctorId(doctorResponseDto.getDoctorId());
         invoiceResponseDto.setDoctorName(doctorResponseDto.getDoctorName());
         invoiceResponseDto.setDoctorContact(doctorResponseDto.getDoctorContact());
 
-        boolean isFirstTime = invoiceRepository.isFirstTime(patientId);
-        invoiceResponseDto.setFirstTime(isFirstTime);
 
-
-         boolean isTreated = invoiceRepository.isTreated(patientId);
-
-        invoiceResponseDto.setTreated(isTreated);
         return invoiceResponseDto;
     }
 }
