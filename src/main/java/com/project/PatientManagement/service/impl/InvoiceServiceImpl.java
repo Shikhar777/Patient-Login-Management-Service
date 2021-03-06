@@ -4,6 +4,7 @@ import com.project.PatientManagement.dto.DoctorResponseDto;
 import com.project.PatientManagement.dto.InvoiceRequestDto;
 import com.project.PatientManagement.dto.InvoiceResponseDto;
 import com.project.PatientManagement.entity.Invoice;
+import com.project.PatientManagement.repository.DoctorRepository;
 import com.project.PatientManagement.repository.InvoiceRepository;
 import com.project.PatientManagement.repository.PatientRepository;
 import com.project.PatientManagement.service.DoctorService;
@@ -23,6 +24,9 @@ public class InvoiceServiceImpl implements InvoiceService {
     @Autowired
     PatientRepository patientRepository;
 
+    @Autowired
+    DoctorRepository doctorRepository;
+
     @Override
     public InvoiceResponseDto makePaymentAndBookDoctor(int patientId, InvoiceRequestDto invoiceRequestDto) {
 
@@ -40,7 +44,6 @@ public class InvoiceServiceImpl implements InvoiceService {
             invoice1.setFirstTime(true);
             invoice1.setDoctorName(invoiceRequestDto.getDoctorName());
             invoice1.setPatientName(patientName);
-
             invoiceRepository.save(invoice1);
         }
 
@@ -60,8 +63,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         invoiceResponseDto.setDoctorId(doctorResponseDto.getDoctorId());
         invoiceResponseDto.setDoctorName(doctorResponseDto.getDoctorName());
         invoiceResponseDto.setDoctorContact(doctorResponseDto.getDoctorContact());
-
-
+        invoiceResponseDto.setPatientName(patientName);
         return invoiceResponseDto;
     }
 }
