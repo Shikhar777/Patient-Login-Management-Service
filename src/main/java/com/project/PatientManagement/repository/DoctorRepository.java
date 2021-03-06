@@ -16,4 +16,9 @@ public interface DoctorRepository extends CrudRepository<Doctor, Integer> {
     @Query(value = "select doctor_id from doctor where nurse_id=?1", nativeQuery = true)
     int getNurseId(int nurseId);
 
+    @Query(value = "select doctor_name from doctor where doctor_id=?1", nativeQuery = true)
+    String getDoctorName(int doctorId);
+
+    @Query(value = "select doctor_contact from doctor where doctor_id=?1", nativeQuery = true)
+    long getDoctorContact(int doctorId);
 }

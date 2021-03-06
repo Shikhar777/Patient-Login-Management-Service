@@ -1,7 +1,6 @@
 package com.project.PatientManagement.controller;
 
 import com.project.PatientManagement.dto.LoginRequestDto;
-import com.project.PatientManagement.dto.LoginResponseDto;
 import com.project.PatientManagement.entity.Id;
 import com.project.PatientManagement.service.DoctorService;
 import com.project.PatientManagement.service.NurseService;
@@ -11,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/login")
+@CrossOrigin("*")
 public class LoginController {
 
     @Autowired
@@ -22,7 +22,6 @@ public class LoginController {
     @Autowired
     NurseService nurseService;
 
-    @CrossOrigin
     @PostMapping(value = "/")
     public Id userLogin(@RequestBody LoginRequestDto loginRequestDto) throws Exception {
         if(loginRequestDto.getRole().equals("Patient")) {

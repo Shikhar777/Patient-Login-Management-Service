@@ -5,6 +5,7 @@ import lombok.Data;
 @Data
 public class InvoiceResponseDto {
 
+    private int invoiceId;
     private int doctorId;
     private String doctorName;
     private long doctorContact;

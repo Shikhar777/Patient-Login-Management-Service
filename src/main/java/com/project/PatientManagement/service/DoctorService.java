@@ -1,9 +1,6 @@
 package com.project.PatientManagement.service;
 
-import com.project.PatientManagement.dto.DoctorRequestDto;
-import com.project.PatientManagement.dto.DoctorResponseDto;
-import com.project.PatientManagement.dto.LoginRequestDto;
-import com.project.PatientManagement.dto.PatientUnderDoctorResponseDto;
+import com.project.PatientManagement.dto.*;
 import com.project.PatientManagement.entity.Doctor;
 import com.project.PatientManagement.entity.Id;
 
@@ -19,5 +16,7 @@ public interface DoctorService {
 
     List<PatientUnderDoctorResponseDto> getPatientsUnderDoctor(int doctorId);
 
-    void endConsultation(int doctorId, int patientId);
+    void endConsultation(HistoryRequestDto historyRequestDto);
+
+    List<HistoryResponseDto> getPatientsHistory(int patientId);
 }

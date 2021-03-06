@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping (value = "/patient")
+@CrossOrigin("*")
 public class PatientController {
 
     @Autowired
@@ -22,7 +23,7 @@ public class PatientController {
     @Autowired
     private InvoiceService invoiceService;
 
-    @CrossOrigin
+
     @PostMapping(value = "/registration")
     public PatientResponseDto saveDetails(@RequestBody PatientRequestDto patientRequestDto) {
         return patientService.saveDetails(patientRequestDto);
@@ -34,7 +35,6 @@ public class PatientController {
 //        return patientService.loginPatient(patientRequestDto);
 //    }
 
-    @CrossOrigin
     @GetMapping(value = "/doctorList")
     public List<DoctorResponseDto> getDoctorsList() {
         return doctorService.getDoctorsList();
@@ -46,16 +46,19 @@ public class PatientController {
 //        return doctorService.updateDoctor(doctorId);
 //    }
 
-    @CrossOrigin
     @GetMapping(value = "/register/findAll")
     public List<PatientResponseDto> findAll()
     {
         return patientService.findAll();
     }
 
-    @CrossOrigin
     @PutMapping("/makePayment/{patientId}")
     public InvoiceResponseDto makePaymentAndBookDoctor(@PathVariable("patientId") int patientId, @RequestBody InvoiceRequestDto invoiceRequestDto) {
         return invoiceService.makePaymentAndBookDoctor(patientId, invoiceRequestDto);
+    }
+
+    @GetMapping("/getPatientsHistory/{patientId}")
+    public List<HistoryResponseDto> getPatientsHistory(@PathVariable("patientId") int patientId) {
+        return doctorService.getPatientsHistory(patientId);
     }
 }

@@ -26,4 +26,5 @@ public interface PatientRepository extends CrudRepository<Patient, Integer> {
 
     @Query(value = "select gender from patient where patient_id=?1", nativeQuery = true)
     String getPatientGender(Integer patient);
+
 }

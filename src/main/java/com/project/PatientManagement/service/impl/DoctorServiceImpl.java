@@ -6,10 +6,7 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.project.PatientManagement.dto.*;
 import com.project.PatientManagement.entity.*;
-import com.project.PatientManagement.repository.DoctorRepository;
-import com.project.PatientManagement.repository.InvoiceRepository;
-import com.project.PatientManagement.repository.NurseRepository;
-import com.project.PatientManagement.repository.PatientRepository;
+import com.project.PatientManagement.repository.*;
 import com.project.PatientManagement.service.DoctorService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +32,9 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Autowired
     private PatientRepository patientRepository;
+
+    @Autowired
+    private HistoryRepository historyRepository;
 
     @Override
     public DoctorResponseDto saveDetails(DoctorRequestDto doctorRequestDto)
@@ -121,29 +121,76 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
-    public void endConsultation(int doctorId, int patientId) {
+    public void endConsultation(HistoryRequestDto historyRequestDto) {
 
-        boolean isTreated = invoiceRepository.isTreated(patientId);
+        int patientId = historyRequestDto.getPatientId();
+        int doctorId = historyRequestDto.getDoctorId();
+        String month = historyRequestDto.getMonth();
+
+        //boolean isTreated = invoiceRepository.isTreated(patientId);
         Invoice invoice = invoiceRepository.findByPatientId(patientId);
 
-        if(!isTreated) {
-            invoice.setTreated(true);
-        }
+//        if(!isTreated) {
+//            invoice.setTreated(true);
+//        }
+//
+//
+//        boolean isFirstTIme = invoiceRepository.isFirstTime(patientId);
+//        if(isFirstTIme) {
+//            invoice.setFirstTime(false);
+//        }
 
-
-        boolean isFirstTIme = invoiceRepository.isFirstTime(patientId);
-        if(isFirstTIme) {
-            invoice.setFirstTime(false);
-        }
-
-        invoiceRepository.save(invoice);
+        //invoiceRepository.save(invoice);
         Doctor doctor = doctorRepository.findById(doctorId).get();
         int doctorPatientCount = doctor.getDoctorPatientCount();
         doctorPatientCount = doctorPatientCount - 1;
         doctor.setDoctorPatientCount(doctorPatientCount);
         doctorRepository.save(doctor);
 
+        String doctorName = doctorRepository.getDoctorName(doctorId);
+        String patientName = patientRepository.getPatientName(patientId);
+        String issue = invoiceRepository.getPatientIssue(patientId);
 
+        History history = new History();
+        history.setDoctorId(doctorId);
+        history.setDoctorName(doctorName);
+        history.setPatientId(patientId);
+        history.setPatientName(patientName);
+        history.setMonth(month);
+        history.setIssue(issue);
+
+        historyRepository.save(history);
+
+        try {
+            invoiceRepository.deleteByPatientId(patientId);
+        }
+        catch (Exception e){}
+    }
+
+    @Override
+    public List<HistoryResponseDto> getPatientsHistory(int patientId) {
+
+        List<History> history = historyRepository.getPatientsHistory(patientId);
+        List<HistoryResponseDto> historyResponseDtos = new ArrayList<>();
+
+
+
+        for(History history1: history) {
+            HistoryResponseDto historyResponseDto = new HistoryResponseDto();
+            historyResponseDto.setDoctorId(history1.getDoctorId());
+            long doctorContact = doctorRepository.getDoctorContact(history1.getDoctorId());
+            historyResponseDto.setDoctorContact(doctorContact);
+            historyResponseDto.setDoctorName(history1.getDoctorName());
+            historyResponseDto.setPatientId(history1.getPatientId());
+            historyResponseDto.setPatientName(history1.getPatientName());
+            historyResponseDto.setIssue(history1.getIssue());
+            historyResponseDto.setMonth(history1.getMonth());
+            historyResponseDto.setPatientContact(patientRepository.getPatientContact(patientId));
+            historyResponseDtos.add(historyResponseDto);
+        }
+
+
+        return historyResponseDtos;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.project.PatientManagement.controller;
 
 
+import com.project.PatientManagement.dto.HistoryResponseDto;
 import com.project.PatientManagement.dto.NurseRequestDto;
 import com.project.PatientManagement.dto.NurseResponseDto;
 import com.project.PatientManagement.dto.PatientUnderDoctorResponseDto;
@@ -15,6 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/nurse")
+@CrossOrigin("*")
 public class NurseController {
 
     @Autowired
@@ -26,25 +28,31 @@ public class NurseController {
     @Autowired
     private DoctorService doctorService;
 
-    @CrossOrigin
+
     @PostMapping(value = "/")
     public NurseResponseDto saveDetails(@RequestBody NurseRequestDto nurseRequestDto)
     {
         return nurseService.saveDetails(nurseRequestDto);
     }
 
-//    @CrossOrigin(origins = "*")
+//
 //    @PostMapping(value = "/login")
 //    public NurseId loginNurse(@RequestBody NurseRequestDto nurseRequestDto) throws Exception
 //    {
 //        return nurseService.loginNurse(nurseRequestDto);
 //    }
 
-    @CrossOrigin
+
     @GetMapping(value = "/patientList/{nurseId}")
     public List<PatientUnderDoctorResponseDto> getPatientsUnderDoctor(@PathVariable("nurseId") int nurseId) {
 
         int doctorId = doctorRepository.getNurseId(nurseId);
         return doctorService.getPatientsUnderDoctor(doctorId);
+    }
+
+
+    @GetMapping("/getPatientsHistory/{patientId}")
+    public List<HistoryResponseDto> getPatientsHistory(@PathVariable("patientId") int patientId) {
+        return doctorService.getPatientsHistory(patientId);
     }
 }

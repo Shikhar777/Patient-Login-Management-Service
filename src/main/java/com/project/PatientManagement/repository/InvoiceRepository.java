@@ -1,6 +1,7 @@
 package com.project.PatientManagement.repository;
 
 import com.project.PatientManagement.entity.Invoice;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
@@ -8,8 +9,8 @@ import java.util.List;
 
 public interface InvoiceRepository extends CrudRepository <Invoice, Integer> {
 
-    @Query(value = "update invoice set doctor_id=?1, issue=?2 where patient_id=?3", nativeQuery = true)
-    void setInvoiceTable(int doctorId, String issue, int patientId);
+    @Query(value = "update invoice set doctor_id=?1, issue=?2, patient_name=?3 where patient_id=?4", nativeQuery = true)
+    void setInvoiceTable(int doctorId, String issue, String patientName, int patientId);
 
     @Query(value = "select * from invoice where patient_id=?1", nativeQuery = true)
     Invoice getInvoiceByPatientId(int patientId);
@@ -34,4 +35,10 @@ public interface InvoiceRepository extends CrudRepository <Invoice, Integer> {
 
     @Query(value = "select * from invoice where patient_id=?1", nativeQuery = true)
     Invoice findByPatientId(int patientId);
+
+    @Query(value = "delete from invoice where patient_id=?1", nativeQuery = true)
+    int deleteByPatientId(int patientId);
+
+    @Query(value = "select invoice_id from invoice where patient_id=?1", nativeQuery = true)
+    int geInvoiceID(int patientId);
 }
