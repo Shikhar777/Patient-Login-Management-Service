@@ -153,24 +153,6 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
-    public List<HistoryResponseDto> getPatientsHistory(int patientId) {
-
-        List<History> history = historyRepository.getPatientsHistory(patientId);
-        List<HistoryResponseDto> historyResponseDtos = new ArrayList<>();
-        for(History history1: history) {
-            HistoryResponseDto historyResponseDto = new HistoryResponseDto();
-            historyResponseDto.setPatientId(history1.getPatientId());
-            long doctorContact = doctorRepository.getDoctorContact(history1.getDoctorId());
-            historyResponseDto.setDoctorContact(doctorContact);
-            historyResponseDto.setDoctorName(history1.getDoctorName());
-            historyResponseDto.setIssue(history1.getIssue());
-            historyResponseDto.setMonth(history1.getMonth());
-            historyResponseDtos.add(historyResponseDto);
-        }
-        return historyResponseDtos;
-    }
-
-    @Override
     public Id loginDoctor(LoginRequestDto loginRequestDto) throws Exception
     {
         Id id = new Id();

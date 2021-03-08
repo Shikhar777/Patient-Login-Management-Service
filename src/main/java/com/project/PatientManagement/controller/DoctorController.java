@@ -31,9 +31,4 @@ public class DoctorController {
     public void endConsultation(@RequestBody HistoryRequestDto historyRequestDto) {
          doctorService.endConsultation(historyRequestDto);
     }
-
-    @GetMapping("/getPatientsHistory/{doctorId}")
-    public List<HistoryResponseDto> getPatientsHistory(@PathVariable("doctorId") int doctorId) {
-        return doctorService.getPatientsHistory(doctorId);
-    }
 }

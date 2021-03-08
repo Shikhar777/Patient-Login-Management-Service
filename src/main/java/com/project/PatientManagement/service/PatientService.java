@@ -1,5 +1,6 @@
 package com.project.PatientManagement.service;
 
+import com.project.PatientManagement.dto.HistoryResponseDto;
 import com.project.PatientManagement.dto.LoginRequestDto;
 import com.project.PatientManagement.dto.PatientRequestDto;
 import com.project.PatientManagement.dto.PatientResponseDto;
@@ -14,5 +15,6 @@ public interface PatientService {
     PatientResponseDto saveDetails(PatientRequestDto patientRequestDto);
     Id loginPatient(LoginRequestDto loginRequestDto) throws Exception;
     Patient findByEmail(String email);
+    List<HistoryResponseDto> getPatientsHistory(int patientId);
     List<PatientResponseDto> findAll();
 }

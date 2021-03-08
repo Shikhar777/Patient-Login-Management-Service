@@ -48,6 +48,6 @@ public class PatientController {
 
     @GetMapping("/getPatientsHistory/{patientId}")
     public List<HistoryResponseDto> getPatientsHistory(@PathVariable("patientId") int patientId) {
-        return doctorService.getPatientsHistory(patientId);
+        return patientService.getPatientsHistory(patientId);
     }
 }

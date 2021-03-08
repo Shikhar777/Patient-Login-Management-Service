@@ -17,6 +17,4 @@ public interface DoctorService {
     List<PatientUnderDoctorResponseDto> getPatientsUnderDoctor(int doctorId);
 
     void endConsultation(HistoryRequestDto historyRequestDto);
-
-    List<HistoryResponseDto> getPatientsHistory(int patientId);
 }

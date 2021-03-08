@@ -2,11 +2,15 @@ package com.project.PatientManagement.service.impl;
 
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
+import com.project.PatientManagement.dto.HistoryResponseDto;
 import com.project.PatientManagement.dto.LoginRequestDto;
 import com.project.PatientManagement.dto.PatientRequestDto;
 import com.project.PatientManagement.dto.PatientResponseDto;
+import com.project.PatientManagement.entity.History;
 import com.project.PatientManagement.entity.Id;
 import com.project.PatientManagement.entity.Patient;
+import com.project.PatientManagement.repository.DoctorRepository;
+import com.project.PatientManagement.repository.HistoryRepository;
 import com.project.PatientManagement.repository.PatientRepository;
 import com.project.PatientManagement.service.PatientService;
 import org.springframework.beans.BeanUtils;
@@ -26,6 +30,12 @@ public class PatientServiceImpl implements PatientService {
 
     @Autowired
     private PatientRepository patientRepository;
+
+    @Autowired
+    private HistoryRepository historyRepository;
+
+    @Autowired
+    private DoctorRepository doctorRepository;
 
     @Override
     public PatientResponseDto saveDetails(PatientRequestDto patientRequestDto)
@@ -117,6 +127,23 @@ public class PatientServiceImpl implements PatientService {
             System.out.println("Invalid Id Token");
         }
         return id;
+    }
+    @Override
+    public List<HistoryResponseDto> getPatientsHistory(int patientId) {
+
+        List<History> history = historyRepository.getPatientsHistory(patientId);
+        List<HistoryResponseDto> historyResponseDtos = new ArrayList<>();
+        for(History history1: history) {
+            HistoryResponseDto historyResponseDto = new HistoryResponseDto();
+            historyResponseDto.setPatientId(history1.getPatientId());
+            long doctorContact = doctorRepository.getDoctorContact(history1.getDoctorId());
+            historyResponseDto.setDoctorContact(doctorContact);
+            historyResponseDto.setDoctorName(history1.getDoctorName());
+            historyResponseDto.setIssue(history1.getIssue());
+            historyResponseDto.setMonth(history1.getMonth());
+            historyResponseDtos.add(historyResponseDto);
+        }
+        return historyResponseDtos;
     }
 
     @Override
