@@ -1,11 +1,8 @@
 package com.project.PatientManagement.controller;
 
-
-import com.project.PatientManagement.dto.HistoryResponseDto;
 import com.project.PatientManagement.dto.NurseRequestDto;
 import com.project.PatientManagement.dto.NurseResponseDto;
 import com.project.PatientManagement.dto.PatientUnderDoctorResponseDto;
-import com.project.PatientManagement.entity.NurseId;
 import com.project.PatientManagement.repository.DoctorRepository;
 import com.project.PatientManagement.service.DoctorService;
 import com.project.PatientManagement.service.NurseService;
@@ -35,14 +32,6 @@ public class NurseController {
         return nurseService.saveDetails(nurseRequestDto);
     }
 
-//
-//    @PostMapping(value = "/login")
-//    public NurseId loginNurse(@RequestBody NurseRequestDto nurseRequestDto) throws Exception
-//    {
-//        return nurseService.loginNurse(nurseRequestDto);
-//    }
-
-
     @GetMapping(value = "/patientList/{nurseId}")
     public List<PatientUnderDoctorResponseDto> getPatientsUnderDoctor(@PathVariable("nurseId") int nurseId) {
 
@@ -50,9 +39,4 @@ public class NurseController {
         return doctorService.getPatientsUnderDoctor(doctorId);
     }
 
-
-    @GetMapping("/getPatientsHistory/{patientId}")
-    public List<HistoryResponseDto> getPatientsHistory(@PathVariable("patientId") int patientId) {
-        return doctorService.getPatientsHistory(patientId);
-    }
 }

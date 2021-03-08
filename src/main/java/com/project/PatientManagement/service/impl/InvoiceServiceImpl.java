@@ -52,9 +52,6 @@ public class InvoiceServiceImpl implements InvoiceService {
             if(!isTreated)
                 return null;
             invoiceRepository.setInvoiceTable(patientId, invoiceRequestDto.getIssue(), patientName, invoiceRequestDto.getDoctorId());
-//            boolean isFirstTime = invoiceRepository.isFirstTime(patientId);
-//            invoiceResponseDto.setFirstTime(isFirstTime);
-//            invoiceResponseDto.setTreated(isTreated);
             invoiceResponseDto.setTreated(false);
         }
         DoctorResponseDto doctorResponseDto = doctorService.updateDoctor(invoiceRequestDto.getDoctorId());

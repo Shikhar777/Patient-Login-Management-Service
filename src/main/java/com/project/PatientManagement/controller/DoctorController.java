@@ -22,13 +22,6 @@ public class DoctorController {
         return doctorService.saveDetails(doctorRequestDto);
     }
 
-//
-//    @PostMapping(value = "/login")
-//    public DoctorId loginDoctor(@RequestBody DoctorRequestDto doctorRequestDto) throws Exception
-//    {
-//        return doctorService.loginDoctor(doctorRequestDto);
-//    }
-
     @GetMapping(value = "/patientList/{doctorId}")
     public List<PatientUnderDoctorResponseDto> getPatientsUnderDoctor(@PathVariable("doctorId") int doctorId) {
         return doctorService.getPatientsUnderDoctor(doctorId);
@@ -39,8 +32,8 @@ public class DoctorController {
          doctorService.endConsultation(historyRequestDto);
     }
 
-    @GetMapping("/getPatientsHistory/{patientId}")
-    public List<HistoryResponseDto> getPatientsHistory(@PathVariable("patientId") int patientId) {
-        return doctorService.getPatientsHistory(patientId);
+    @GetMapping("/getPatientsHistory/{doctorId}")
+    public List<HistoryResponseDto> getPatientsHistory(@PathVariable("doctorId") int doctorId) {
+        return doctorService.getPatientsHistory(doctorId);
     }
 }

@@ -126,21 +126,6 @@ public class DoctorServiceImpl implements DoctorService {
         int patientId = historyRequestDto.getPatientId();
         int doctorId = historyRequestDto.getDoctorId();
         String month = historyRequestDto.getMonth();
-
-        //boolean isTreated = invoiceRepository.isTreated(patientId);
-        Invoice invoice = invoiceRepository.findByPatientId(patientId);
-
-//        if(!isTreated) {
-//            invoice.setTreated(true);
-//        }
-//
-//
-//        boolean isFirstTIme = invoiceRepository.isFirstTime(patientId);
-//        if(isFirstTIme) {
-//            invoice.setFirstTime(false);
-//        }
-
-        //invoiceRepository.save(invoice);
         Doctor doctor = doctorRepository.findById(doctorId).get();
         int doctorPatientCount = doctor.getDoctorPatientCount();
         doctorPatientCount = doctorPatientCount - 1;
@@ -172,24 +157,16 @@ public class DoctorServiceImpl implements DoctorService {
 
         List<History> history = historyRepository.getPatientsHistory(patientId);
         List<HistoryResponseDto> historyResponseDtos = new ArrayList<>();
-
-
-
         for(History history1: history) {
             HistoryResponseDto historyResponseDto = new HistoryResponseDto();
-            historyResponseDto.setDoctorId(history1.getDoctorId());
+            historyResponseDto.setPatientId(history1.getPatientId());
             long doctorContact = doctorRepository.getDoctorContact(history1.getDoctorId());
             historyResponseDto.setDoctorContact(doctorContact);
             historyResponseDto.setDoctorName(history1.getDoctorName());
-            historyResponseDto.setPatientId(history1.getPatientId());
-            historyResponseDto.setPatientName(history1.getPatientName());
             historyResponseDto.setIssue(history1.getIssue());
             historyResponseDto.setMonth(history1.getMonth());
-            historyResponseDto.setPatientContact(patientRepository.getPatientContact(patientId));
             historyResponseDtos.add(historyResponseDto);
         }
-
-
         return historyResponseDtos;
     }
 
@@ -251,8 +228,6 @@ public class DoctorServiceImpl implements DoctorService {
             else
             {
                 loginRequestDto.setPassword("123456789@#$");
-//                DoctorResponseDto doctor = saveDetails(doctorRequestDto);
-//                id.setId(doctor.getDoctorId());
                 id.setStatus(200);
             }
             System.out.println(email);

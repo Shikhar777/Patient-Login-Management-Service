@@ -6,8 +6,6 @@ import com.project.PatientManagement.entity.Patient;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
-import java.util.List;
-
 public interface PatientRepository extends CrudRepository<Patient, Integer> {
 
     Patient findByEmail(String email);

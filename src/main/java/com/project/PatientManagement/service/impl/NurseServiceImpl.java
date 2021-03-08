@@ -7,10 +7,8 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.project.PatientManagement.dto.LoginRequestDto;
 import com.project.PatientManagement.dto.NurseRequestDto;
 import com.project.PatientManagement.dto.NurseResponseDto;
-import com.project.PatientManagement.dto.PatientUnderDoctorResponseDto;
 import com.project.PatientManagement.entity.Id;
 import com.project.PatientManagement.entity.Nurse;
-import com.project.PatientManagement.entity.NurseId;
 import com.project.PatientManagement.repository.InvoiceRepository;
 import com.project.PatientManagement.repository.NurseRepository;
 import com.project.PatientManagement.service.NurseService;
@@ -18,9 +16,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 
 @Service
@@ -107,8 +103,6 @@ public class NurseServiceImpl implements NurseService {
             else
             {
                 loginRequestDto.setPassword("123456789@#$");
-//                NurseResponseDto nurse = saveDetails(loginRequestDto);
-//                id.setId(nurse.getNurseId());
                 id.setStatus(200);
             }
             System.out.println(email);

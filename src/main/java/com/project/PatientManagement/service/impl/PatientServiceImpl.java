@@ -3,7 +3,6 @@ package com.project.PatientManagement.service.impl;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.project.PatientManagement.dto.LoginRequestDto;
-import com.project.PatientManagement.dto.LoginResponseDto;
 import com.project.PatientManagement.dto.PatientRequestDto;
 import com.project.PatientManagement.dto.PatientResponseDto;
 import com.project.PatientManagement.entity.Id;
@@ -108,8 +107,6 @@ public class PatientServiceImpl implements PatientService {
             else
             {
                 loginRequestDto.setPassword("123456789@#$");
-//                LoginResponseDto login = saveDetails(loginRequestDto);
-//                id.setId(login.getId());
                 id.setStatus(200);
             }
             System.out.println(email);

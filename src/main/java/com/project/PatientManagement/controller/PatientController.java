@@ -29,22 +29,11 @@ public class PatientController {
         return patientService.saveDetails(patientRequestDto);
     }
 
-//    @CrossOrigin(origins = "*")
-//    @PostMapping(value = "/login")
-//    public Id loginPatient(@RequestBody PatientRequestDto patientRequestDto) throws Exception {
-//        return patientService.loginPatient(patientRequestDto);
-//    }
-
     @GetMapping(value = "/doctorList")
     public List<DoctorResponseDto> getDoctorsList() {
         return doctorService.getDoctorsList();
     }
 
-//    @CrossOrigin
-//    @PutMapping("/doctorList/{doctorId}")
-//    public DoctorResponseDto updateDoctor(@PathVariable int doctorId) {
-//        return doctorService.updateDoctor(doctorId);
-//    }
 
     @GetMapping(value = "/register/findAll")
     public List<PatientResponseDto> findAll()
